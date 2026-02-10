@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para ti 💌</title>
+<title>Para Dylan 💌</title>
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #ffe6f0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #ffd6e8, #ffeef7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,41 +21,48 @@ body {
 }
 
 .envelope {
-  width: 200px;
-  height: 120px;
-  background: #ff4d88;
+  width: 220px;
+  height: 140px;
+  background: #ff6fa5;
   position: relative;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.envelope:hover {
+  transform: scale(1.05);
 }
 
 .envelope:before {
   content: "";
   position: absolute;
-  top: -60px;
+  top: -70px;
   left: 0;
   width: 0;
   height: 0;
-  border-left: 100px solid transparent;
-  border-right: 100px solid transparent;
-  border-bottom: 60px solid #ff4d88;
+  border-left: 110px solid transparent;
+  border-right: 110px solid transparent;
+  border-bottom: 70px solid #ff6fa5;
 }
 
 .card {
   display: none;
   margin-top: 20px;
   background: white;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 25px;
   margin: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 16px;
+  transition: 0.3s;
 }
 
 #yes {
@@ -63,8 +70,31 @@ button {
   color: white;
 }
 
+#yes:hover {
+  transform: scale(1.1);
+}
+
 #no {
-  background: #ccc;
+  background: #ddd;
+}
+
+img {
+  margin-top: 20px;
+  width: 250px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.heart {
+  position: fixed;
+  color: #ff4d88;
+  font-size: 20px;
+  animation: float 4s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
@@ -74,29 +104,51 @@ button {
   <div class="envelope" onclick="openLetter()"></div>
 
   <div class="card" id="card">
-    <h2>¿Quieres ser mi San Valentín? 💖</h2>
-    <button id="yes" onclick="sayYes()">Sí 💘</button>
-    <button id="no" onmouseover="moveButton()">No 🙈</button>
+    <h2>Dylan 💖</h2>
+    <p>Desde que llegaste, todo es más bonito.</p>
+    <h3>¿Quieres ser mi San Valentín? 💘</h3>
+    <button id="yes" onclick="sayYes()">Sí, obvio 💞</button>
+    <button id="no" onclick="shrinkButton()">No 🙈</button>
   </div>
 </div>
 
 <script>
+let noSize = 1;
+
 function openLetter() {
   document.querySelector(".envelope").style.display = "none";
   document.getElementById("card").style.display = "block";
 }
 
 function sayYes() {
-  document.getElementById("card").innerHTML = "<h2>Sabía que dirías que sí 😌💞</h2><p>Te amo muchísimo 💖</p>";
+  document.getElementById("card").innerHTML = `
+    <h2>Sabía que dirías que sí 😌💖</h2>
+    <p>Eres mi lugar favorito en el mundo.</p>
+    <img src="foto.jpg" alt="Nosotros">
+    <p>Feliz San Valentín, mi amor 💘</p>
+  `;
+  createHearts();
 }
 
-function moveButton() {
-  const button = document.getElementById("no");
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 50);
-  button.style.position = "absolute";
-  button.style.left = x + "px";
-  button.style.top = y + "px";
+function shrinkButton() {
+  noSize -= 0.1;
+  if (noSize <= 0) {
+    document.getElementById("no").style.display = "none";
+  } else {
+    document.getElementById("no").style.transform = "scale(" + noSize + ")";
+  }
+}
+
+function createHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }, 300);
 }
 </script>
 
