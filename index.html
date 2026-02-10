@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti 💌</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffe6f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+}
+
+.envelope {
+  width: 200px;
+  height: 120px;
+  background: #ff4d88;
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.envelope:before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 60px solid #ff4d88;
+}
+
+.card {
+  display: none;
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#yes {
+  background: #ff4d88;
+  color: white;
+}
+
+#no {
+  background: #ccc;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="envelope" onclick="openLetter()"></div>
+
+  <div class="card" id="card">
+    <h2>¿Quieres ser mi San Valentín? 💖</h2>
+    <button id="yes" onclick="sayYes()">Sí 💘</button>
+    <button id="no" onmouseover="moveButton()">No 🙈</button>
+  </div>
+</div>
+
+<script>
+function openLetter() {
+  document.querySelector(".envelope").style.display = "none";
+  document.getElementById("card").style.display = "block";
+}
+
+function sayYes() {
+  document.getElementById("card").innerHTML = "<h2>Sabía que dirías que sí 😌💞</h2><p>Te amo muchísimo 💖</p>";
+}
+
+function moveButton() {
+  const button = document.getElementById("no");
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 50);
+  button.style.position = "absolute";
+  button.style.left = x + "px";
+  button.style.top = y + "px";
+}
+</script>
+
+</body>
+</html>
