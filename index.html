@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Dylan 💌</title>
+
 <style>
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #ffd6e8, #ffeef7);
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ffd6e8, #ffeaf4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,10 +17,26 @@ body {
   overflow: hidden;
 }
 
-.container {
-  text-align: center;
+/* Fondo corazones suaves */
+.heart-bg {
+  position: fixed;
+  font-size: 18px;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.6;
 }
 
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 0; }
+  20% { opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+
+.container {
+  text-align: center;
+  position: relative;
+}
+
+/* Sobre animado */
 .envelope {
   width: 220px;
   height: 140px;
@@ -27,11 +44,11 @@ body {
   position: relative;
   cursor: pointer;
   border-radius: 10px;
-  transition: transform 0.3s;
+  transition: transform 0.5s;
 }
 
 .envelope:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .envelope:before {
@@ -44,22 +61,36 @@ body {
   border-left: 110px solid transparent;
   border-right: 110px solid transparent;
   border-bottom: 70px solid #ff6fa5;
+  transition: transform 0.5s;
 }
 
+.open .envelope:before {
+  transform: rotateX(180deg);
+}
+
+/* Carta */
 .card {
-  display: none;
-  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
   background: white;
   padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  margin-top: 20px;
 }
 
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Botones */
 button {
   padding: 12px 25px;
   margin: 10px;
   border: none;
-  border-radius: 25px;
+  border-radius: 30px;
   cursor: pointer;
   font-size: 16px;
   transition: 0.3s;
@@ -68,10 +99,13 @@ button {
 #yes {
   background: #ff4d88;
   color: white;
+  animation: pulse 1.5s infinite;
 }
 
-#yes:hover {
-  transform: scale(1.1);
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+  100% { transform: scale(1); }
 }
 
 #no {
@@ -79,28 +113,22 @@ button {
 }
 
 img {
-  margin-top: 20px;
-  width: 250px;
+  width: 260px;
   border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  margin-top: 15px;
+  animation: zoomIn 0.8s ease;
 }
 
-.heart {
-  position: fixed;
-  color: #ff4d88;
-  font-size: 20px;
-  animation: float 4s linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); opacity: 1; }
-  to { transform: translateY(-10vh); opacity: 0; }
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 </style>
 </head>
+
 <body>
 
-<div class="container">
+<div class="container" id="container">
   <div class="envelope" onclick="openLetter()"></div>
 
   <div class="card" id="card">
@@ -116,18 +144,17 @@ img {
 let noSize = 1;
 
 function openLetter() {
-  document.querySelector(".envelope").style.display = "none";
-  document.getElementById("card").style.display = "block";
+  document.getElementById("container").classList.add("open");
+  document.getElementById("card").classList.add("show");
 }
 
 function sayYes() {
   document.getElementById("card").innerHTML = `
     <h2>Sabía que dirías que sí 😌💖</h2>
     <p>Eres mi lugar favorito en el mundo.</p>
-    <img src="foto.jpg" alt="Nosotros">
+    <img src="foto.jpg">
     <p>Feliz San Valentín, mi amor 💘</p>
   `;
-  createHearts();
 }
 
 function shrinkButton() {
@@ -139,17 +166,16 @@ function shrinkButton() {
   }
 }
 
-function createHearts() {
-  setInterval(() => {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 4000);
-  }, 300);
-}
+/* Corazones de fondo */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.classList.add("heart-bg");
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 800);
 </script>
 
 </body>
